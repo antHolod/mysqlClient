@@ -44,6 +44,25 @@ void MainWindow::displayAuthWin()
         connectWin->setWindowModality(Qt::ApplicationModal);
     }
     connectWin->show();
+    connect(connectWin,&ConnectionForm::btnCancelClicked,this,&MainWindow::slotConnCancelBtnClicked);
+}
+
+void MainWindow::slotConnOkBtnClicked(QString host, int port, QString user, QString pass)
+{
+
+}
+
+void MainWindow::slotConnCancelBtnClicked()
+{
+    if(_isConnected)
+    {
+        connectWin->close();
+        connectWin = nullptr;
+    }
+    else
+    {
+        QApplication::quit();
+    }
 }
 
 /*void MainWindow::slotAuthRegButtonClicked()

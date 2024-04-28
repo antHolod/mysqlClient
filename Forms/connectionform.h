@@ -17,6 +17,8 @@ public:
     explicit ConnectionForm(QWidget *parent = nullptr);
     ~ConnectionForm();
 
+    void setLabelInfo();
+
 private slots:
     void on_checkSaveConn_stateChanged(int arg1);
     void on_butCancel_clicked();
