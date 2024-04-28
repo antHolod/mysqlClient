@@ -46,5 +46,6 @@ public slots:
     //void slotAuthCancelButtonClicked();
     //void slotRegOkButtonClicked(QString,QString);
     //void slotRegCancelButtonClicked();
+    void slotConnOkBtnClicked(QString,int,QString,QString);
 };
 #endif // MAINWINDOW_H
