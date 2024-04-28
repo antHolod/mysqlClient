@@ -18,27 +18,24 @@ ConnectionForm::~ConnectionForm()
 
 void ConnectionForm::setLabelInfo()
 {
-    QStringList list = {ui->editHost->text(),
-                        ui->editPort->text(),
-                        ui->editUser->text()};
     QString message;
-    for(int i = 0,size = list.length();i < size;i++)
+    if(ui->editHost->text().isEmpty())
     {
-        if(list.at(0).isEmpty())
-        {
-            if(!message.isEmpty()) message.append("\n");
-            message.append(connectInfoNoHost);
-        }
-        if(list.at(1).isEmpty())
-        {
-            if(!message.isEmpty()) message.append("\n");
-            message.append(connectInfoNoPort);
-        }
-        if(list.at(2).isEmpty())
-        {
-            if(!message.isEmpty()) message.append("\n");
-            message.append(connectInfoNoName);
-        }
+        if(!message.isEmpty())
+            message.append("\n");
+        message.append(connectInfoNoHost);
+    }
+    if(ui->editPort->text().isEmpty())
+    {
+        if(!message.isEmpty())
+            message.append("\n");
+        message.append(connectInfoNoPort);
+    }
+    if(ui->editUser->text().isEmpty())
+    {
+        if(!message.isEmpty())
+            message.append("\n");
+        message.append(connectInfoNoName);
     }
 
     if(message.isEmpty()) ui->labelInfo->setText(connectInfoStart);
@@ -65,7 +62,7 @@ void ConnectionForm::on_butCancel_clicked()
 
 void ConnectionForm::on_butOk_clicked()
 {
-    emit btnOkClicked(_Host,_Port,_User,_Password);
+    emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
 }
 
 

@@ -35,9 +35,10 @@ private:
     QString _Password;
     QString _User;
     int _Port;
+    QString _Name;
 
 signals:
-    void btnOkClicked(QString,int,QString,QString);
+    void btnOkClicked(QString,int,QString,QString,QString);
     void btnCancelClicked();
 };
 

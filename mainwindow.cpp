@@ -45,11 +45,26 @@ void MainWindow::displayAuthWin()
     }
     connectWin->show();
     connect(connectWin,&ConnectionForm::btnCancelClicked,this,&MainWindow::slotConnCancelBtnClicked);
+    connect(connectWin,&ConnectionForm::btnOkClicked,this,&MainWindow::slotConnOkBtnClicked);
 }
 
-void MainWindow::slotConnOkBtnClicked(QString host, int port, QString user, QString pass)
+void MainWindow::slotConnOkBtnClicked(QString host,
+                                      int port,
+                                      QString user,
+                                      QString pass,
+                                      QString name)
 {
+    if(host.isEmpty() || port <= 0 || user.isEmpty())
+    {
+        connectWin->setLabelInfo();
+        return;
+    }
 
+    _dbHost = host;
+    _dbPort = port;
+    _dbUser = user;
+    _dbPass = pass;
+    _dbName = name;
 }
 
 void MainWindow::slotConnCancelBtnClicked()
