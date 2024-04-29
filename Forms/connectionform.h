@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include "defines.h"
+#include "Dialogs/emptypassdialog.h"
 
 namespace Ui {
 class ConnectionForm;
@@ -27,9 +28,13 @@ private slots:
     void on_editPort_editingFinished();
     void on_editUser_editingFinished();
     void on_editPass_editingFinished();
+    void on_editDbName_editingFinished();
+    void onEmptyPassOkClicked();
+    void onEmptyPassCancelClicked();
 
 private:
     Ui::ConnectionForm *ui;
+    EmptyPassDialog *emptyPass;
     bool _saveConnection;
     QString _Host;
     QString _Password;

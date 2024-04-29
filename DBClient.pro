@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Forms/Dialogs/emptypassdialog.cpp \
     Forms/connectionform.cpp \
     connectors/mysqlconnector.cpp \
     connectors/sqliteconnector.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Forms/Dialogs/emptypassdialog.h \
     Forms/connectionform.h \
     connectors/mysqlconnector.h \
     connectors/sqliteconnector.h \
@@ -23,6 +25,7 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
+    Forms/Dialogs/emptypassdialog.ui \
     Forms/connectionform.ui \
     mainwindow.ui
 

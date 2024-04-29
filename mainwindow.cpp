@@ -54,7 +54,7 @@ void MainWindow::slotConnOkBtnClicked(QString host,
                                       QString pass,
                                       QString name)
 {
-    if(host.isEmpty() || port <= 0 || user.isEmpty())
+    if(host.isEmpty() || port <= 0 || user.isEmpty() || name.isEmpty())
     {
         connectWin->setLabelInfo();
         return;

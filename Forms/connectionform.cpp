@@ -9,6 +9,7 @@ ConnectionForm::ConnectionForm(QWidget *parent)
     ui->setupUi(this);
     ui->editPort->setText("3306");
     ui->labelInfo->setText(connectInfoStart);
+    emptyPass = nullptr;
 }
 
 ConnectionForm::~ConnectionForm()
@@ -37,6 +38,12 @@ void ConnectionForm::setLabelInfo()
             message.append("\n");
         message.append(connectInfoNoName);
     }
+    if(ui->editDbName->text().isEmpty())
+    {
+        if(!message.isEmpty())
+            message.append("\n");
+        message.append(connectInfoNoDb);
+    }
 
     if(message.isEmpty()) ui->labelInfo->setText(connectInfoStart);
     else ui->labelInfo->setText(message);
@@ -62,7 +69,21 @@ void ConnectionForm::on_butCancel_clicked()
 
 void ConnectionForm::on_butOk_clicked()
 {
-    emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
+    if(ui->editPass->text().isEmpty())
+    {
+        if(emptyPass != nullptr)
+        {
+            delete emptyPass;
+            emptyPass = nullptr;
+        }
+        emptyPass = new EmptyPassDialog(this);
+        emptyPass->setWindowModality(Qt::WindowModal);
+        emptyPass->show();
+        connect(emptyPass,&EmptyPassDialog::signalContinue,this,&ConnectionForm::onEmptyPassOkClicked);
+        connect(emptyPass,&EmptyPassDialog::signalGoBack,this,&ConnectionForm::onEmptyPassCancelClicked);
+    }
+    else
+        emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
 }
 
 
@@ -91,5 +112,24 @@ void ConnectionForm::on_editPass_editingFinished()
 {
     //setLabelInfo();
     _Password = ui->editPass->text();
+}
+
+
+void ConnectionForm::on_editDbName_editingFinished()
+{
+    _Name = ui->editDbName->text();
+}
+
+void ConnectionForm::onEmptyPassOkClicked()
+{
+    emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
+}
+
+void ConnectionForm::onEmptyPassCancelClicked()
+{
+    emptyPass->close();
+    delete emptyPass;
+    emptyPass = nullptr;
+
 }
 
