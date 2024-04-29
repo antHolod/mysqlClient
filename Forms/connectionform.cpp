@@ -46,7 +46,11 @@ void ConnectionForm::setLabelInfo()
     }
 
     if(message.isEmpty()) ui->labelInfo->setText(connectInfoStart);
-    else ui->labelInfo->setText(message);
+    else
+    {
+        ui->labelInfo->setText(message);
+        focusOnField();
+    }
 }
 
 
@@ -123,13 +127,33 @@ void ConnectionForm::on_editDbName_editingFinished()
 void ConnectionForm::onEmptyPassOkClicked()
 {
     emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
+    closeEmptyPassDialog();
 }
 
 void ConnectionForm::onEmptyPassCancelClicked()
 {
+    closeEmptyPassDialog();
+    ui->editPass->setFocus();
+}
+
+void ConnectionForm::closeEmptyPassDialog()
+{
+    if(emptyPass == nullptr) return;
+
     emptyPass->close();
     delete emptyPass;
     emptyPass = nullptr;
+}
 
+void ConnectionForm::focusOnField()
+{
+    if(ui->editHost->text().isEmpty())
+        ui->editHost->setFocus();
+    else if(ui->editPort->text().isEmpty())
+        ui->editPort->setFocus();
+    else if(ui->editUser->text().isEmpty())
+        ui->editUser->setFocus();
+    else if(ui->editDbName->text().isEmpty())
+        ui->editDbName->setFocus();
 }
 

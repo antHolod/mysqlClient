@@ -6,7 +6,7 @@ EmptyPassDialog::EmptyPassDialog(QWidget *parent)
     , ui(new Ui::EmptyPassDialog)
 {
     ui->setupUi(this);
-    ui->labelInfo->setText(connectInfoNoDb);
+    ui->labelInfo->setText(connectInfoNoPass);
 }
 
 EmptyPassDialog::~EmptyPassDialog()

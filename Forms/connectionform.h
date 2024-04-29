@@ -42,6 +42,9 @@ private:
     int _Port;
     QString _Name;
 
+    void closeEmptyPassDialog();
+    void focusOnField();
+
 signals:
     void btnOkClicked(QString,int,QString,QString,QString);
     void btnCancelClicked();
