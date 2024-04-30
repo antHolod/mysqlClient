@@ -12,7 +12,6 @@ SOURCES += \
     Forms/Dialogs/emptypassdialog.cpp \
     Forms/connectionform.cpp \
     connectors/mysqlconnector.cpp \
-    connectors/sqliteconnector.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -20,7 +19,6 @@ HEADERS += \
     Forms/Dialogs/emptypassdialog.h \
     Forms/connectionform.h \
     connectors/mysqlconnector.h \
-    connectors/sqliteconnector.h \
     defines.h \
     mainwindow.h
 

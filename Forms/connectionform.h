@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QString>
+#include <QSettings>
+
 #include "defines.h"
 #include "Dialogs/emptypassdialog.h"
 

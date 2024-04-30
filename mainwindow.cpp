@@ -1,37 +1,28 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QFile>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //authWin = nullptr;
-    //regWin = nullptr;
     connectWin = nullptr;
 }
 
 MainWindow::~MainWindow()
 {
+    if(_isConnected)
+    {
+        QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
+    }
+
     delete ui;
 }
 
 void MainWindow::displayAuthWin()
 {
-    /*if(authWin != nullptr)
-    {
-        delete authWin;
-        authWin = nullptr;
-    }
-
-    authWin = new AuthForm();
-
-    connect(authWin,&AuthForm::signalOkBtnClicked,this,&MainWindow::slotAuthOkButtonClicked);
-    connect(authWin,&AuthForm::signalRegBtnClicked,this,&MainWindow::slotAuthRegButtonClicked);
-    connect(authWin,&AuthForm::signalCancelBtnClicked,this,&MainWindow::slotAuthCancelButtonClicked);
-
-    authWin->show();*/
-
     if(connectWin != nullptr)
     {
         delete connectWin;
@@ -43,6 +34,23 @@ void MainWindow::displayAuthWin()
         connectWin->setParent(this);
         connectWin->setWindowModality(Qt::ApplicationModal);
     }
+
+    if(QFile::exists(SETTINGS_FILE))
+    {
+        QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
+        if(settings.contains(SETTINGS_GROUP_CONNECT))
+        {
+            settings.beginGroup(SETTINGS_GROUP_CONNECT);
+            int x = settings.value("x").toInt();
+            int y = settings.value("y").toInt();
+            int w = settings.value("w").toInt();
+            int h = settings.value("h").toInt();
+            settings.endGroup();
+
+            connectWin->setGeometry(x,y,w,h);
+        }
+    }
+
     connectWin->show();
     connect(connectWin,&ConnectionForm::btnCancelClicked,this,&MainWindow::slotConnCancelBtnClicked);
     connect(connectWin,&ConnectionForm::btnOkClicked,this,&MainWindow::slotConnOkBtnClicked);
@@ -72,6 +80,7 @@ void MainWindow::slotConnCancelBtnClicked()
     if(_isConnected)
     {
         connectWin->close();
+        delete connectWin;
         connectWin = nullptr;
     }
     else
@@ -80,41 +89,3 @@ void MainWindow::slotConnCancelBtnClicked()
     }
 }
 
-/*void MainWindow::slotAuthRegButtonClicked()
-{
-    authWin->hide();
-    if(regWin != nullptr)
-    {
-        delete regWin;
-        regWin = nullptr;
-    }
-    regWin = new reguserform();
-
-    regWin->show();
-    connect(regWin,&reguserform::signalRegOkClicked,this,&MainWindow::slotRegOkButtonClicked);
-    connect(regWin,&reguserform::signalRegCancelClicked,this,&MainWindow::slotRegCancelButtonClicked);
-
-}*/
-
-/*void MainWindow::slotAuthOkButtonClicked()
-{
-
-}*/
-
-/*void MainWindow::slotAuthCancelButtonClicked()
-{
-    if(!_isConnected) QApplication::quit();
-    else authWin->close();
-}*/
-
-/*void MainWindow::slotRegOkButtonClicked(QString name, QString pass)
-{
-
-}*/
-
-/*void MainWindow::slotRegCancelButtonClicked()
-{
-    regWin->close();
-    if(!_isConnected)
-        authWin->show();
-}*/

@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
+#include <QFile>
 
-//#include "Forms/authform.h"
-//#include "Forms/reguserform.h"
 #include "Forms/connectionform.h"
+#include "connectors/mysqlconnector.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,21 +32,10 @@ private:
     QString _dbUser;
     QString _dbPass;
     QString _dbName;
-    //bool _isEnter;
     bool _isConnected = false;
-    //QString _progUser;
-    //QString _progPass;
-
-    //AuthForm *authWin;
-    //reguserform *regWin;
     ConnectionForm *connectWin;
 
 public slots:
-    //void slotAuthRegButtonClicked();
-    //void slotAuthOkButtonClicked();
-    //void slotAuthCancelButtonClicked();
-    //void slotRegOkButtonClicked(QString,QString);
-    //void slotRegCancelButtonClicked();
     void slotConnOkBtnClicked(QString,int,QString,QString,QString);
     void slotConnCancelBtnClicked();
 };

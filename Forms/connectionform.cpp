@@ -10,10 +10,34 @@ ConnectionForm::ConnectionForm(QWidget *parent)
     ui->editPort->setText("3306");
     ui->labelInfo->setText(connectInfoStart);
     emptyPass = nullptr;
+
+    QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
+    if(settings.contains(SETTINGS_GROUP_CONNECT))
+    {
+        settings.beginGroup(SETTINGS_GROUP_CONNECT);
+        ui->editHost->setText(settings.value("host").toString());
+        ui->editPort->setText(settings.value("port").toString());
+        ui->editUser->setText(settings.value("user").toString());
+        ui->editDbName->setText(settings.value("db").toString());
+        settings.endGroup();
+    }
 }
 
 ConnectionForm::~ConnectionForm()
 {
+    int x = this->x();
+    int y = this->y();
+    int w = this->width();
+    int h = this->height();
+    QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
+    qDebug() << settings.fileName() << Qt::endl;
+    settings.beginGroup(SETTINGS_GROUP_CONNECT);
+    settings.setProperty("x",x);
+    settings.setProperty("y",y);
+    settings.setProperty("w",w);
+    settings.setProperty("h",h);
+    settings.endGroup();
+
     delete ui;
 }
 
