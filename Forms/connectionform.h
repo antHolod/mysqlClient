@@ -20,6 +20,7 @@ public:
     explicit ConnectionForm(QWidget *parent = nullptr);
     ~ConnectionForm();
 
+    QString settingsFilePath;
     void setLabelInfo();
 
 private slots:
@@ -48,7 +49,7 @@ private:
     void focusOnField();
 
 signals:
-    void btnOkClicked(QString,int,QString,QString,QString);
+    void btnOkClicked(QString,int,QString,QString,QString,bool);
     void btnCancelClicked();
 };
 

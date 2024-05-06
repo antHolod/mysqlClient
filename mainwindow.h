@@ -33,10 +33,12 @@ private:
     QString _dbPass;
     QString _dbName;
     bool _isConnected = false;
+    bool _saveConnection;
     ConnectionForm *connectWin;
+    QString settingsFilePath;
 
 public slots:
-    void slotConnOkBtnClicked(QString,int,QString,QString,QString);
+    void slotConnOkBtnClicked(QString,int,QString,QString,QString,bool);
     void slotConnCancelBtnClicked();
 };
 #endif // MAINWINDOW_H

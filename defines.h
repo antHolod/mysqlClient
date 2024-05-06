@@ -4,7 +4,7 @@
 #include <QString>
 #include <QTranslator>
 
-#define SETTINGS_FILE "config.conf"
+#define SETTINGS_FILE "config.ini"
 #define SETTINGS_GROUP_CONNECT "ConnectWindow"
 #define SETTINGS_GROUP_MAIN "MainWindow"
 

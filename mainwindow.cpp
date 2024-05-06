@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QFile>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,9 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    if(_isConnected)
+    if(_isConnected && _saveConnection)
     {
-        QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
+        QSettings settings(settingsFilePath,QSettings::IniFormat);
+        settings.beginGroup(SETTINGS_GROUP_CONNECT);
+        settings.setValue("host",_dbHost);
+        settings.setValue("port",_dbPort);
+        settings.setValue("user",_dbUser);
+        settings.setValue("name",_dbName);
+        settings.endGroup();
     }
 
     delete ui;
@@ -35,7 +39,7 @@ void MainWindow::displayAuthWin()
         connectWin->setWindowModality(Qt::ApplicationModal);
     }
 
-    if(QFile::exists(SETTINGS_FILE))
+    /*if(QFile::exists(SETTINGS_FILE))
     {
         QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
         if(settings.contains(SETTINGS_GROUP_CONNECT))
@@ -50,6 +54,7 @@ void MainWindow::displayAuthWin()
             connectWin->setGeometry(x,y,w,h);
         }
     }
+    else qDebug() << "Settings file not find" << Qt::endl;*/
 
     connectWin->show();
     connect(connectWin,&ConnectionForm::btnCancelClicked,this,&MainWindow::slotConnCancelBtnClicked);
@@ -60,7 +65,8 @@ void MainWindow::slotConnOkBtnClicked(QString host,
                                       int port,
                                       QString user,
                                       QString pass,
-                                      QString name)
+                                      QString name,
+                                      bool save)
 {
     if(host.isEmpty() || port <= 0 || user.isEmpty() || name.isEmpty())
     {
@@ -73,6 +79,8 @@ void MainWindow::slotConnOkBtnClicked(QString host,
     _dbUser = user;
     _dbPass = pass;
     _dbName = name;
+    _saveConnection = save;
+    this->settingsFilePath = connectWin->settingsFilePath;
 }
 
 void MainWindow::slotConnCancelBtnClicked()
@@ -85,6 +93,8 @@ void MainWindow::slotConnCancelBtnClicked()
     }
     else
     {
+        connectWin->close();
+        delete connectWin;
         QApplication::quit();
     }
 }

@@ -1,6 +1,8 @@
 #include "connectionform.h"
 #include "ui_connectionform.h"
 //#include <QDebug>
+#include <QDir>
+#include <QFile>
 
 ConnectionForm::ConnectionForm(QWidget *parent)
     : QWidget(parent)
@@ -11,15 +13,36 @@ ConnectionForm::ConnectionForm(QWidget *parent)
     ui->labelInfo->setText(connectInfoStart);
     emptyPass = nullptr;
 
-    QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
-    if(settings.contains(SETTINGS_GROUP_CONNECT))
-    {
-        settings.beginGroup(SETTINGS_GROUP_CONNECT);
+    settingsFilePath = QDir::currentPath();
+    settingsFilePath.append("/");
+    settingsFilePath.append(SETTINGS_FILE);
+    //qDebug() << settingsFilePath << Qt::endl;
+    int x = 0,y = 0,w = 0,h = 0;
+    QSettings settings(settingsFilePath,QSettings::IniFormat);
+    settings.beginGroup(SETTINGS_GROUP_CONNECT);
+    if(settings.value("w").toInt() > 0)
+        w = settings.value("w").toInt();
+    if(settings.value("h").toInt() > 0)
+        h = settings.value("h").toInt();
+    if(settings.value("x").toInt() > 0)
+        x = settings.value("x").toInt();
+    if(settings.value("y").toInt() > 0)
+        y = settings.value("y").toInt();
+
+    if(!settings.value("host").toString().isEmpty())
         ui->editHost->setText(settings.value("host").toString());
+    if(!settings.value("port").toString().isEmpty())
         ui->editPort->setText(settings.value("port").toString());
+    if(!settings.value("user").toString().isEmpty())
         ui->editUser->setText(settings.value("user").toString());
+    if(!settings.value("db").toString().isEmpty())
         ui->editDbName->setText(settings.value("db").toString());
-        settings.endGroup();
+    settings.endGroup();
+
+    if(x != 0 && y != 0 && w != 0 && h != 0)
+    {
+        this->resize(w,h);
+        this->move(x,y);
     }
 }
 
@@ -29,13 +52,13 @@ ConnectionForm::~ConnectionForm()
     int y = this->y();
     int w = this->width();
     int h = this->height();
-    QSettings settings(SETTINGS_FILE,QSettings::IniFormat);
-    qDebug() << settings.fileName() << Qt::endl;
+    QSettings settings(settingsFilePath,QSettings::IniFormat);
+    //qDebug() << "Exit: " << settings.fileName() << Qt::endl;
     settings.beginGroup(SETTINGS_GROUP_CONNECT);
-    settings.setProperty("x",x);
-    settings.setProperty("y",y);
-    settings.setProperty("w",w);
-    settings.setProperty("h",h);
+    settings.setValue("x",x);
+    settings.setValue("y",y);
+    settings.setValue("w",w);
+    settings.setValue("h",h);
     settings.endGroup();
 
     delete ui;
@@ -111,7 +134,7 @@ void ConnectionForm::on_butOk_clicked()
         connect(emptyPass,&EmptyPassDialog::signalGoBack,this,&ConnectionForm::onEmptyPassCancelClicked);
     }
     else
-        emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
+        emit btnOkClicked(_Host,_Port,_User,_Password,_Name,_saveConnection);
 }
 
 
@@ -150,7 +173,7 @@ void ConnectionForm::on_editDbName_editingFinished()
 
 void ConnectionForm::onEmptyPassOkClicked()
 {
-    emit btnOkClicked(_Host,_Port,_User,_Password,_Name);
+    emit btnOkClicked(_Host,_Port,_User,_Password,_Name,_saveConnection);
     closeEmptyPassDialog();
 }
 
