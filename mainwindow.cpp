@@ -74,6 +74,17 @@ void MainWindow::slotConnOkBtnClicked(QString host,
         return;
     }
 
+    _db = new mysqlconnector(host,port,user,pass,name);
+    if(!_db->connectToDb())
+    {
+        QString text;
+        text.append(connectError);
+        text.append(_db->_lastError);
+        connectWin->setLabelInfo(text);
+
+        return;
+    }
+
     _dbHost = host;
     _dbPort = port;
     _dbUser = user;
@@ -81,6 +92,12 @@ void MainWindow::slotConnOkBtnClicked(QString host,
     _dbName = name;
     _saveConnection = save;
     this->settingsFilePath = connectWin->settingsFilePath;
+
+    _isConnected = true;
+    connectWin->close();
+    this->show();
+    delete connectWin;
+    connectWin = nullptr;
 }
 
 void MainWindow::slotConnCancelBtnClicked()

@@ -14,9 +14,6 @@ const QString connectInfoNoPass = QTranslator::tr("Password field is empty. Cont
 const QString connectInfoNoPort = QTranslator::tr("Connection Port can not be empty");
 const QString connectInfoNoHost = QTranslator::tr("Host Name can not be empty");
 const QString connectInfoNoDb = QTranslator::tr("Dsta Base name can not be empty");
-
-//QString settingsFileName = "config.conf";
-//QString settingsMainGeometryGroup = "Main Window Geometry";
-//QString settingsConnectGeometryGroup = "Connection Window Geometry";
+const QString connectError = QTranslator::tr("Connection to Data Base error: ");
 
 #endif // DEFINES_H

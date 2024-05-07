@@ -22,6 +22,7 @@ public:
 
     QString settingsFilePath;
     void setLabelInfo();
+    void setLabelInfo(const QString&);
 
 private slots:
     void on_checkSaveConn_stateChanged(int arg1);
@@ -38,7 +39,7 @@ private slots:
 private:
     Ui::ConnectionForm *ui;
     EmptyPassDialog *emptyPass;
-    bool _saveConnection;
+    bool _saveConnection = false;
     QString _Host;
     QString _Password;
     QString _User;

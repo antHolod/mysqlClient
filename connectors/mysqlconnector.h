@@ -11,7 +11,13 @@ class mysqlconnector : public QObject
 {
     Q_OBJECT
 public:
-    explicit mysqlconnector(QObject *parent = nullptr);
+    explicit mysqlconnector(QString,
+                            int,
+                            QString,
+                            QString,
+                            QString,
+                            QObject *parent = nullptr);
+    ~mysqlconnector();
 
 private:
     QSqlDatabase _db;
@@ -21,6 +27,13 @@ private:
     QString _user;
     QString _pass;
     QString _dbName;
+
+    void closeDb();
+
+public:
+    QString _lastError;
+
+    bool connectToDb();
 
 signals:
 };

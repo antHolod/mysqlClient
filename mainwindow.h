@@ -27,6 +27,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    QString settingsFilePath;
     QString _dbHost;
     int _dbPort;
     QString _dbUser;
@@ -35,7 +36,8 @@ private:
     bool _isConnected = false;
     bool _saveConnection;
     ConnectionForm *connectWin;
-    QString settingsFilePath;
+    mysqlconnector *_db;
+
 
 public slots:
     void slotConnOkBtnClicked(QString,int,QString,QString,QString,bool);

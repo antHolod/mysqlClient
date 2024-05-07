@@ -16,7 +16,7 @@ ConnectionForm::ConnectionForm(QWidget *parent)
     settingsFilePath = QDir::currentPath();
     settingsFilePath.append("/");
     settingsFilePath.append(SETTINGS_FILE);
-    //qDebug() << settingsFilePath << Qt::endl;
+
     int x = 0,y = 0,w = 0,h = 0;
     QSettings settings(settingsFilePath,QSettings::IniFormat);
     settings.beginGroup(SETTINGS_GROUP_CONNECT);
@@ -35,8 +35,8 @@ ConnectionForm::ConnectionForm(QWidget *parent)
         ui->editPort->setText(settings.value("port").toString());
     if(!settings.value("user").toString().isEmpty())
         ui->editUser->setText(settings.value("user").toString());
-    if(!settings.value("db").toString().isEmpty())
-        ui->editDbName->setText(settings.value("db").toString());
+    if(!settings.value("name").toString().isEmpty())
+        ui->editDbName->setText(settings.value("name").toString());
     settings.endGroup();
 
     if(x != 0 && y != 0 && w != 0 && h != 0)
@@ -98,6 +98,12 @@ void ConnectionForm::setLabelInfo()
         ui->labelInfo->setText(message);
         focusOnField();
     }
+}
+
+void ConnectionForm::setLabelInfo(const QString &text)
+{
+    ui->labelInfo->setText(text);
+    focusOnField();
 }
 
 
@@ -200,6 +206,8 @@ void ConnectionForm::focusOnField()
         ui->editPort->setFocus();
     else if(ui->editUser->text().isEmpty())
         ui->editUser->setFocus();
+    else if(ui->editPass->text().isEmpty())
+        ui->editPass->setFocus();
     else if(ui->editDbName->text().isEmpty())
         ui->editDbName->setFocus();
 }
